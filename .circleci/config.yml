@@ -10,7 +10,7 @@ jobs:
           name: "Create cloud formation stack"
           command: |
             aws cloudformation deploy \
-              --template-file infra_scripts/server-infra.yml \
+              --template-file server-infra.yml \
               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
               --region us-east-1
 
