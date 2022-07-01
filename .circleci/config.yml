@@ -24,8 +24,7 @@ jobs:
     steps:
       - checkout
       - add_ssh_keys:
-              # You can get this ID in the section where you registered the SSH Key
-              fingerprints: ["66:9b:95:14:af:ca:fe:1a:ae:5c:5f:b8:44:08:b2:5f"] 
+          fingerprints: ["66:9b:95:14:af:ca:fe:1a:ae:5c:5f:b8:44:08:b2:5f"] 
       - run:
           name: Install Ansible
           command: |
@@ -34,6 +33,14 @@ jobs:
           name: Run Playbook and Configure server
           command: |
             ansible-playbook -i inventory main1.yml
+      - run:
+          name: Clear AWS resources on fail
+          when: on_fail
+          command: |
+            echo "Clearing already provisioned AWS resources"
+            sudo python3 -m pip install awscli
+            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
+            echo "Job to delete AWS resources started"
 
 workflows:
   my_workflow:
