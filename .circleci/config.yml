@@ -33,14 +33,14 @@ jobs:
           name: Run Playbook and Configure server
           command: |
             ansible-playbook -i inventory main1.yml
-      - run:
-          name: Clear AWS resources on fail
-          when: on_fail
-          command: |
-            echo "Clearing already provisioned AWS resources"
-            python3 -m pip install awscli
-            aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
-            echo "Job to delete AWS resources started"
+      # - run:
+      #     name: Clear AWS resources on fail
+      #     when: on_fail
+      #     command: |
+      #       echo "Clearing already provisioned AWS resources"
+      #       python3 -m pip install awscli
+      #       aws cloudformation delete-stack --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5}
+      #       echo "Job to delete AWS resources started"
 
 workflows:
   my_workflow:
